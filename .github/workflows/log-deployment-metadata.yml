@@ -15,5 +15,5 @@ jobs:
       status: ${{ github.event.workflow_run.conclusion == 'success' && 'success' || 'failed' }}
       workflow_run_id: "${{ github.event.workflow_run.id }}"
     secrets:
-      API_ENDPOINT: ${{ secrets.API_ENDPOINT }}
+      API_ENDPOINT: "${{ secrets.API_ENDPOINT }}/deployments"
       API_KEY: ${{ secrets.API_KEY }}
