@@ -1,18 +1,23 @@
 // React
-import { ReactElement } from "react";
+import { ReactElement } from 'react';
 
 // MUI X
-import { ScatterValueType } from "@mui/x-charts";
-import { ScatterChart } from "@mui/x-charts/ScatterChart";
+import { ScatterValueType } from '@mui/x-charts';
+import { ScatterChart } from '@mui/x-charts/ScatterChart';
 
 interface Props {
-    tooltipFormatter?: (obj: { x: number, y: number }) => string
-    xAxisFormatter?: (value: number) => string
-    yAxisFormatter?: (value: number) => string
-    data: ScatterValueType[]
+    tooltipFormatter?: (obj: { x: number; y: number }) => string;
+    xAxisFormatter?: (value: number) => string;
+    yAxisFormatter?: (value: number) => string;
+    data: ScatterValueType[];
 }
 
-const Scatter = ({ data, tooltipFormatter, xAxisFormatter, yAxisFormatter }: Props): ReactElement => {
+const Scatter = ({
+    data,
+    tooltipFormatter,
+    xAxisFormatter,
+    yAxisFormatter,
+}: Props): ReactElement => {
     return (
         <div>
             <ScatterChart
@@ -23,25 +28,25 @@ const Scatter = ({ data, tooltipFormatter, xAxisFormatter, yAxisFormatter }: Pro
                     {
                         data,
                         valueFormatter: tooltipFormatter,
-                        color: '#d71c60',
-                    }
+                        color: 'var(--tertiary-highlight-color)',
+                    },
                 ]}
                 yAxis={[
                     {
                         min: 1,
                         valueFormatter: yAxisFormatter,
-                    }
+                    },
                 ]}
                 xAxis={[
                     {
-                        valueFormatter: xAxisFormatter
-                    }
+                        valueFormatter: xAxisFormatter,
+                    },
                 ]}
                 height={165}
                 margin={{ left: 75, top: 20, bottom: 20, right: 35 }}
             />
         </div>
-    )
-}
+    );
+};
 
 export default Scatter;

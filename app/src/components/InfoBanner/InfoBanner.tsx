@@ -4,10 +4,6 @@ import { ReactElement, useState } from 'react';
 // Utils
 import { saveDontShowAgain, shouldShowInfoBanner } from './InfoBanner.utils';
 
-// Video
-import dnaVideo from '../../assets/video/dna.mp4';
-import dnaVideoFrame1 from '../../assets/video/dna_frame_1.png';
-
 // Styles
 import './InfoBanner.css';
 
@@ -63,8 +59,8 @@ const InfoBanner = (): ReactElement | null => {
             </div>
             <div className="info-banner-overlay"></div>
             <video
-                src={dnaVideo}
-                poster={dnaVideoFrame1}
+                src="https://d1p1bf198tl14c.cloudfront.net/doordash-dashboard/dna.mp4"
+                poster="https://d1p1bf198tl14c.cloudfront.net/doordash-dashboard/dna_frame_1.png"
                 autoPlay
                 loop
                 muted
