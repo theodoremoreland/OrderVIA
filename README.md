@@ -1,28 +1,5 @@
 # OrderVIA (Very Important Analytics)
 
-Enhancements:
-
-- Replace Activity Scatter Plot with lines that illustrate buying and not buying streaks (https://mui.com/x/react-charts/lines/)
-- Add deltas to KPIs that so delta (percentages) between previous year for single year and delta by all years for all years
-- Display save defaults for visualization options
-
-New data:
-
-- Banner with High, Low, Average, and Rate of tips
-- Receipt that corresponds to row selection of table that shows all receipt info for that day and links to actual page on Doordash. Have a projected stat for non doordash price of total and items.
-- Add dedicated raw stats page with plain lines of data (most popular stores, most popular items, highest tips, lowest tips, etc)
-
-Both:
-
-- Heatmap option for data table (total orders, total spend, items) Stacks for all years, do it by day of month and not weekdays + horizontal scroll. Click to view receipt.
-
-New logic:
-
-- browser extension that grabs receipts then downloads json
-- manually record non doordash item prices
-
-# OrderVIA
-
 Very Important Analytics
 
 <img src="presentation/thumbnail.webp" width="700">
