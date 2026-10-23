@@ -124,6 +124,18 @@
     }
 }
 
+.MuiPaper-root {
+    background-color: var(--tertiary-color) !important;
+}
+
+.Mui-selected {
+    background-color: rgba(25, 118, 210, 0.18) !important;
+}
+
+.MuiSvgIcon-root {
+    color: var(--primary-font-color);
+}
+
 .MuiNativeSelect-icon,
 .MuiSelect-icon {
     color: var(--primary-highlight-color) !important;
