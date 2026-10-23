@@ -81,43 +81,46 @@ const NavBar = ({ analytics }: Props): ReactElement => {
     return (
         <nav className="NavBar">
             <h1 className="app-title">OrderVIA</h1>
-            <FormControl
-                variant="standard"
-                size="small"
-                sx={{
-                    minWidth: 95,
-                    zIndex: 2,
-                }}
-            >
-                <Select
+            <div id="form-control-container">
+                <FormControl
+                    id="form-control"
+                    variant="standard"
+                    size="small"
                     sx={{
-                        color: '#feffff',
-                    }}
-                    value={selectedYear}
-                    onChange={(e) => setSelectedYear(e.target.value)}
-                    inputProps={{
-                        name: 'year',
-                        id: 'uncontrolled-native',
+                        minWidth: 95,
+                        zIndex: 2,
                     }}
                 >
-                    <MenuItem className="menu-item" value="All">
-                        All years
-                    </MenuItem>
-                    {Object.keys(analytics.getTotalSpendByYear())
-                        .sort((a, b) => Number(b) - Number(a))
-                        .map((year) => {
-                            return (
-                                <MenuItem
-                                    className="menu-item"
-                                    key={year}
-                                    value={year}
-                                >
-                                    {year}
-                                </MenuItem>
-                            );
-                        })}
-                </Select>
-            </FormControl>
+                    <Select
+                        sx={{
+                            color: '#feffff',
+                        }}
+                        value={selectedYear}
+                        onChange={(e) => setSelectedYear(e.target.value)}
+                        inputProps={{
+                            name: 'year',
+                            id: 'uncontrolled-native',
+                        }}
+                    >
+                        <MenuItem className="menu-item" value="All">
+                            All years
+                        </MenuItem>
+                        {Object.keys(analytics.getTotalSpendByYear())
+                            .sort((a, b) => Number(b) - Number(a))
+                            .map((year) => {
+                                return (
+                                    <MenuItem
+                                        className="menu-item"
+                                        key={year}
+                                        value={year}
+                                    >
+                                        {year}
+                                    </MenuItem>
+                                );
+                            })}
+                    </Select>
+                </FormControl>
+            </div>
             <div id="desktop-menu" className="center">
                 <ul>
                     <li className="menu-item">
