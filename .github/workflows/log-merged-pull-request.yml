@@ -1,0 +1,13 @@
+name: Trigger Log Merged PR
+
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  call-shared:
+    if: github.event.pull_request.merged == true
+    uses: theodoremoreland/theodoremoreland/.github/workflows/log-merged-pull-request.yml@master
+    secrets:
+      api_endpoint: "${{ secrets.API_ENDPOINT }}/pull-requests"
+      api_key: "${{ secrets.API_KEY }}"

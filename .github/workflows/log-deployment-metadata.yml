@@ -1,0 +1,19 @@
+name: Trigger Deployment Metadata Publish
+
+on:
+  workflow_run:
+    workflows: ["Deploy to AWS Amplify"]
+    types:
+      - completed
+
+jobs:
+  call-workflow:
+    uses: theodoremoreland/theodoremoreland/.github/workflows/log-deployment-metadata.yml@master
+    with:
+      project_id: "${{ github.event.repository.id }}"
+      target: "aws-amplify"
+      status: ${{ github.event.workflow_run.conclusion == 'success' && 'success' || 'failed' }}
+      workflow_run_id: "${{ github.event.workflow_run.id }}"
+    secrets:
+      API_ENDPOINT: "${{ secrets.API_ENDPOINT }}/deployments"
+      API_KEY: ${{ secrets.API_KEY }}

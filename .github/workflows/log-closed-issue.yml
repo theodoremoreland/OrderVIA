@@ -1,0 +1,12 @@
+name: Call Shared Issue Workflow
+
+on:
+  issues:
+    types: [closed]
+
+jobs:
+  call-workflow:
+    uses: theodoremoreland/theodoremoreland/.github/workflows/log-closed-issue.yml@master
+    secrets:
+      api_endpoint: "${{ secrets.API_ENDPOINT }}/issues"
+      api_key: "${{ secrets.API_KEY }}"
