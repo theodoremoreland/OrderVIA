@@ -133,7 +133,7 @@
 }
 
 .MuiSvgIcon-root {
-    color: var(--primary-font-color);
+    color: var(--primary-highlight-color);
 }
 
 .MuiNativeSelect-icon,
