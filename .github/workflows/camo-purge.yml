@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - "README.md"
+      - "presentation/**"
 
 jobs:
   Camo-Purge:
@@ -14,4 +15,4 @@ jobs:
 
     steps:
       - name: Use camo purge action
-        uses: kevincobain2000/action-camo-purge@v1
+        uses: kevincobain2000/action-camo-purge@0b70f4d64c9828aace7bbbf1931a646957734ef3
