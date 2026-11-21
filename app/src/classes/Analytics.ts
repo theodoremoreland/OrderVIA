@@ -1,6 +1,6 @@
-import { Order } from "../types/types";
-import generateObjectCalendar from "../modules/generateObjectCalendar";
-import getPercentageOfYearPassedOnDate from "../modules/getPercentageOfYearPassedOnDate";
+import { Order } from '../types/types';
+import generateObjectCalendar from '../modules/generateObjectCalendar';
+import getPercentageOfYearPassedOnDate from '../modules/getPercentageOfYearPassedOnDate';
 
 // TODO many of the methods in this class seem incredibly inefficient, namely the reuse of object calendar and redundant use of loops and iterators.
 // TODO (cont.) Refactoring these in a vacuum would be trivial, however refactoring them to accommodate the needs of the React app requires more thought.
@@ -10,39 +10,45 @@ export default class Analytics {
     private data: Order[];
 
     constructor(data: Order[]) {
-        this.data = data.map(order => { 
-            return { 
-                ...order,
-                cost: parseFloat(order.cost.toFixed(2))
-            };
-        })
-        .filter(order => !order.wasCancelled)
-        .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+        this.data = data
+            .map((order) => {
+                return {
+                    ...order,
+                    cost: parseFloat(order.cost.toFixed(2)),
+                };
+            })
+            .filter((order) => !order.wasCancelled)
+            .sort(
+                (a, b) =>
+                    new Date(a.date).getTime() - new Date(b.date).getTime()
+            );
     }
 
-    public get orders(): (Omit<Order, 'date'> & { id: number, date: Date})[] {
+    public get orders(): (Omit<Order, 'date'> & { id: number; date: Date })[] {
         return this.data.map((order, id) => {
             return {
                 ...order,
                 id: id + 1,
-                date: new Date(order.date)
-            }
+                date: new Date(order.date),
+            };
         });
     }
 
-    public getOrdersBetweenDates(startDate: Date, endDate: Date): (Omit<Order, 'date'> & { id: number, date: Date})[] {
-        return this.orders
-            .filter(order => {
-                const orderDate: Date = order.date;
+    public getOrdersBetweenDates(
+        startDate: Date,
+        endDate: Date
+    ): (Omit<Order, 'date'> & { id: number; date: Date })[] {
+        return this.orders.filter((order) => {
+            const orderDate: Date = order.date;
 
-                return orderDate >= startDate && orderDate <= endDate;
-            });
+            return orderDate >= startDate && orderDate <= endDate;
+        });
     }
 
     // ---------- !!!! Groups Bys !!!! ----------
 
     private groupByStore(startDate: Date, endDate: Date) {
-        const dataFiltered: Order[] = this.data.filter(order => {
+        const dataFiltered: Order[] = this.data.filter((order) => {
             const orderDate: Date = new Date(order.date);
 
             return orderDate >= startDate && orderDate <= endDate;
@@ -61,7 +67,7 @@ export default class Analytics {
     }
 
     private groupByDate(startDate: Date, endDate: Date) {
-        const dataFiltered: Order[] = this.data.filter(order => {
+        const dataFiltered: Order[] = this.data.filter((order) => {
             const orderDate: Date = new Date(order.date);
 
             return orderDate >= startDate && orderDate <= endDate;
@@ -80,7 +86,7 @@ export default class Analytics {
     }
 
     private groupByDayOfWeek(startDate: Date, endDate: Date) {
-        const dataFiltered: Order[] = this.data.filter(order => {
+        const dataFiltered: Order[] = this.data.filter((order) => {
             const orderDate: Date = new Date(order.date);
 
             return orderDate >= startDate && orderDate <= endDate;
@@ -99,7 +105,7 @@ export default class Analytics {
     }
 
     private groupByMonth(startDate: Date, endDate: Date) {
-        const dataFiltered: Order[] = this.data.filter(order => {
+        const dataFiltered: Order[] = this.data.filter((order) => {
             const orderDate: Date = new Date(order.date);
 
             return orderDate >= startDate && orderDate <= endDate;
@@ -107,8 +113,8 @@ export default class Analytics {
         const results: { [key: string]: Order[] } = {};
 
         for (const order of dataFiltered) {
-            const month: string = order.date.split(" ")[0];
-            const year: string = order.date.split(" ")[2];
+            const month: string = order.date.split(' ')[0];
+            const year: string = order.date.split(' ')[2];
             const monthYear: string = `${month} ${year}`;
 
             if (!results[monthYear]) {
@@ -125,7 +131,7 @@ export default class Analytics {
         const data: { [key: number]: Order[] } = {};
 
         for (const order of this.data) {
-            const year = Number(order.date.split(" ")[2]);
+            const year = Number(order.date.split(' ')[2]);
 
             if (!data[year]) {
                 data[year] = [];
@@ -141,18 +147,19 @@ export default class Analytics {
 
     private getTimeOfOrdersSorted(startDate: Date, endDate: Date): number[] {
         return this.data
-        .filter(order => {
-            const orderDate: Date = new Date(order.date);
+            .filter((order) => {
+                const orderDate: Date = new Date(order.date);
 
-            return orderDate >= startDate && orderDate <= endDate;
-        })
-        .map(order => new Date(order.date).getTime()).sort((a, b) => a - b);
+                return orderDate >= startDate && orderDate <= endDate;
+            })
+            .map((order) => new Date(order.date).getTime())
+            .sort((a, b) => a - b);
     }
-                        
+
     // ---------- !!!! Aggregates !!!! ----------
 
     public getTotalPurchases(startDate: Date, endDate: Date): number {
-        return this.data.filter(order => {
+        return this.data.filter((order) => {
             const orderDate: Date = new Date(order.date);
 
             return orderDate >= startDate && orderDate <= endDate;
@@ -160,7 +167,7 @@ export default class Analytics {
     }
 
     public getTotalSpent(startDate: Date, endDate: Date): number {
-        const dataFiltered: Order[] = this.data.filter(order => {
+        const dataFiltered: Order[] = this.data.filter((order) => {
             const orderDate: Date = new Date(order.date);
 
             return orderDate >= startDate && orderDate <= endDate;
@@ -171,11 +178,14 @@ export default class Analytics {
             total += order.cost;
         }
 
-        return +(total).toFixed(2);
+        return +total.toFixed(2);
     }
 
-    public getTotalNumberOfDaysAPurchaseWasMade(startDate: Date, endDate: Date): number {
-        const dataFiltered: Order[] = this.data.filter(order => {
+    public getTotalNumberOfDaysAPurchaseWasMade(
+        startDate: Date,
+        endDate: Date
+    ): number {
+        const dataFiltered: Order[] = this.data.filter((order) => {
             const orderDate: Date = new Date(order.date);
 
             return orderDate >= startDate && orderDate <= endDate;
@@ -190,7 +200,7 @@ export default class Analytics {
     }
 
     public getTotalItemsPurchased(startDate: Date, endDate: Date): number {
-        const dataFiltered: Order[] = this.data.filter(order => {
+        const dataFiltered: Order[] = this.data.filter((order) => {
             const orderDate: Date = new Date(order.date);
 
             return orderDate >= startDate && orderDate <= endDate;
@@ -204,11 +214,17 @@ export default class Analytics {
         return total;
     }
 
-    public getNumberOfStoresPurchasedFrom(startDate: Date, endDate: Date): number {
+    public getNumberOfStoresPurchasedFrom(
+        startDate: Date,
+        endDate: Date
+    ): number {
         return Object.keys(this.groupByStore(startDate, endDate)).length;
     }
 
-    public getTotalSpendByDayOfWeek(startDate: Date, endDate: Date): { [key: string]: number } {
+    public getTotalSpendByDayOfWeek(
+        startDate: Date,
+        endDate: Date
+    ): { [key: string]: number } {
         const data = this.groupByDayOfWeek(startDate, endDate);
         const result: { [key: string]: number } = {};
 
@@ -219,20 +235,23 @@ export default class Analytics {
                 result[day] += order.cost;
             }
 
-            result[day] = +(result[day].toFixed(2));
+            result[day] = +result[day].toFixed(2);
         }
 
         return result;
     }
 
-    public getTotalSpendByMonth(startDate: Date, endDate: Date): { [key: string]: number } {
+    public getTotalSpendByMonth(
+        startDate: Date,
+        endDate: Date
+    ): { [key: string]: number } {
         const data = this.groupByMonth(startDate, endDate);
         const validMonths: string[] = Object.keys(data);
         const result: { [key: string]: number } = {};
 
         for (const monthYear of validMonths) {
             const orders: Order[] = data[monthYear];
-            const month: string = monthYear.split(" ")[0];
+            const month: string = monthYear.split(' ')[0];
 
             if (!result[month]) {
                 result[month] = 0;
@@ -242,10 +261,10 @@ export default class Analytics {
                 result[month] += order.cost;
             }
 
-            result[month] = +(result[month].toFixed(2));
+            result[month] = +result[month].toFixed(2);
         }
 
-        return result; 
+        return result;
     }
 
     public getTotalSpendByYear(): { [key: string]: number } {
@@ -259,15 +278,19 @@ export default class Analytics {
                 result[year] += order.cost;
             }
 
-            result[year] = +(result[year].toFixed(2));
+            result[year] = +result[year].toFixed(2);
         }
 
         return result;
     }
 
-    public getTopStoresByTotalSpend(startDate: Date, endDate: Date, limit: number = 5): { storeName: string, totalSpend: number }[] {
+    public getTopStoresByTotalSpend(
+        startDate: Date,
+        endDate: Date,
+        limit: number = 5
+    ): { storeName: string; totalSpend: number }[] {
         const data = this.groupByStore(startDate, endDate);
-        const result: { storeName: string, totalSpend: number }[] = [];
+        const result: { storeName: string; totalSpend: number }[] = [];
 
         for (const store in data) {
             let total: number = 0;
@@ -276,7 +299,7 @@ export default class Analytics {
                 total += order.cost;
             }
 
-            total = +(total).toFixed(2);
+            total = +total.toFixed(2);
 
             result.push({ storeName: store, totalSpend: total });
         }
@@ -286,9 +309,13 @@ export default class Analytics {
             .slice(0, limit);
     }
 
-    public getTopStoresByTotalOrders(startDate: Date, endDate: Date, limit: number = 5): { storeName: string, totalOrders: number }[] {
+    public getTopStoresByTotalOrders(
+        startDate: Date,
+        endDate: Date,
+        limit: number = 5
+    ): { storeName: string; totalOrders: number }[] {
         const data = this.groupByStore(startDate, endDate);
-        const result: { storeName: string, totalOrders: number }[] = [];
+        const result: { storeName: string; totalOrders: number }[] = [];
 
         for (const store in data) {
             result.push({ storeName: store, totalOrders: data[store].length });
@@ -299,9 +326,13 @@ export default class Analytics {
             .slice(0, limit);
     }
 
-    public getTopStoresByTotalItemsPurchased(startDate: Date, endDate: Date, limit: number = 5): { storeName: string, totalItemsPurchased: number }[] {
+    public getTopStoresByTotalItemsPurchased(
+        startDate: Date,
+        endDate: Date,
+        limit: number = 5
+    ): { storeName: string; totalItemsPurchased: number }[] {
         const data = this.groupByStore(startDate, endDate);
-        const result: { storeName: string, totalItemsPurchased: number }[] = [];
+        const result: { storeName: string; totalItemsPurchased: number }[] = [];
 
         for (const store in data) {
             let total: number = 0;
@@ -322,7 +353,10 @@ export default class Analytics {
 
     public getAverageSpendPerDay(startDate: Date, endDate: Date): number {
         const objectCalendar = generateObjectCalendar(startDate, endDate);
-        const data: {[key: string]: Order[]} = this.groupByDate(startDate, endDate);
+        const data: { [key: string]: Order[] } = this.groupByDate(
+            startDate,
+            endDate
+        );
         let sum: number = 0;
 
         for (const filler of objectCalendar) {
@@ -337,9 +371,15 @@ export default class Analytics {
         return +(sum / objectCalendar.length).toFixed(2);
     }
 
-    public getAverageNumberOfPurchasesPerDay(startDate: Date, endDate: Date): number {
+    public getAverageNumberOfPurchasesPerDay(
+        startDate: Date,
+        endDate: Date
+    ): number {
         const objectCalendar = generateObjectCalendar(startDate, endDate);
-        const data: {[key: string]: Order[]} = this.groupByDate(startDate, endDate);
+        const data: { [key: string]: Order[] } = this.groupByDate(
+            startDate,
+            endDate
+        );
         let totalNumberOfPurchases: number = 0;
 
         for (const filler of objectCalendar) {
@@ -354,7 +394,10 @@ export default class Analytics {
 
     public getAverageSpendPerWeek(startDate: Date, endDate: Date): number {
         const objectCalendar = generateObjectCalendar(startDate, endDate);
-        const data: {[key: string]: Order[]} = this.groupByDate(startDate, endDate);
+        const data: { [key: string]: Order[] } = this.groupByDate(
+            startDate,
+            endDate
+        );
         let sum: number = 0;
 
         for (const filler of objectCalendar) {
@@ -369,9 +412,15 @@ export default class Analytics {
         return +(sum / (objectCalendar.length / 7)).toFixed(2);
     }
 
-    public getAverageNumberOfPurchasesPerWeek(startDate: Date, endDate: Date): number {
+    public getAverageNumberOfPurchasesPerWeek(
+        startDate: Date,
+        endDate: Date
+    ): number {
         const objectCalendar = generateObjectCalendar(startDate, endDate);
-        const data: {[key: string]: Order[]} = this.groupByDate(startDate, endDate);
+        const data: { [key: string]: Order[] } = this.groupByDate(
+            startDate,
+            endDate
+        );
         let totalNumberOfPurchases: number = 0;
 
         for (const filler of objectCalendar) {
@@ -381,47 +430,60 @@ export default class Analytics {
             totalNumberOfPurchases += orders.length;
         }
 
-        return +(totalNumberOfPurchases / (objectCalendar.length / 7)).toFixed(2);
+        return +(totalNumberOfPurchases / (objectCalendar.length / 7)).toFixed(
+            2
+        );
     }
 
     public getAverageSpendPerMonth(startDate: Date, endDate: Date): number {
-        const averageSpendPerYear: number = this.getAverageSpendPerYear(startDate, endDate);
+        const averageSpendPerYear: number = this.getAverageSpendPerYear(
+            startDate,
+            endDate
+        );
         const averageSpendPerMonth: number = averageSpendPerYear / 12;
 
-        return +(averageSpendPerMonth).toFixed(2);
+        return +averageSpendPerMonth.toFixed(2);
     }
 
-    public getAverageNumberOfPurchasesPerMonth(startDate: Date, endDate: Date): number {
-        const averageNumberOfPurchasesPerYear: number = this.getAverageNumberOfPurchasesPerYear(startDate, endDate);
-        const averageNumberOfPurchasesPerMonth: number = averageNumberOfPurchasesPerYear / 12;
+    public getAverageNumberOfPurchasesPerMonth(
+        startDate: Date,
+        endDate: Date
+    ): number {
+        const averageNumberOfPurchasesPerYear: number =
+            this.getAverageNumberOfPurchasesPerYear(startDate, endDate);
+        const averageNumberOfPurchasesPerMonth: number =
+            averageNumberOfPurchasesPerYear / 12;
 
-        return +(averageNumberOfPurchasesPerMonth).toFixed(2);
+        return +averageNumberOfPurchasesPerMonth.toFixed(2);
     }
 
     public getAverageSpendPerYear(startDate: Date, endDate: Date): number {
-        const data: {[key: number]: Order[]} = this.groupByYear();
-        const validYears: string[] = Object.keys(data).filter(year => {
-            return startDate.getFullYear() <= Number(year) && endDate.getFullYear() >= Number(year);
+        const data: { [key: number]: Order[] } = this.groupByYear();
+        const validYears: string[] = Object.keys(data).filter((year) => {
+            return (
+                startDate.getFullYear() <= Number(year) &&
+                endDate.getFullYear() >= Number(year)
+            );
         });
         const numberOfYears: number = validYears.reduce((acc, curr) => {
             if (curr === startDate.getFullYear().toString()) {
-
                 /**
                  * Subtract the percentage of the year that was skipped since the start date
-                 * from 1 to get the percentage remaining in the year (i.e. 
+                 * from 1 to get the percentage remaining in the year (i.e.
                  * the amount of the year actually featuring the order data this function is concerned with).
                  */
-                return acc + (1 - getPercentageOfYearPassedOnDate(startDate) / 100);
+                return (
+                    acc + (1 - getPercentageOfYearPassedOnDate(startDate) / 100)
+                );
             } else if (curr === endDate.getFullYear().toString()) {
-                    
-                    /**
-                    * Add the percentage of the year that has passed given the end date
-                    * instead of adding 1 because 1 whole year may not have passed by the end date.
-                    */
-                    return acc + getPercentageOfYearPassedOnDate(endDate) / 100;
-                } else {
-                    return acc + 1;
-                }
+                /**
+                 * Add the percentage of the year that has passed given the end date
+                 * instead of adding 1 because 1 whole year may not have passed by the end date.
+                 */
+                return acc + getPercentageOfYearPassedOnDate(endDate) / 100;
+            } else {
+                return acc + 1;
+            }
         }, 0);
         let sum: number = 0;
 
@@ -436,30 +498,36 @@ export default class Analytics {
         return +(sum / numberOfYears).toFixed(2);
     }
 
-    public getAverageNumberOfPurchasesPerYear(startDate: Date, endDate: Date): number {
-        const data: {[key: number]: Order[]} = this.groupByYear();
-        const validYears: string[] = Object.keys(data).filter(year => {
-            return startDate.getFullYear() <= Number(year) && endDate.getFullYear() >= Number(year);
+    public getAverageNumberOfPurchasesPerYear(
+        startDate: Date,
+        endDate: Date
+    ): number {
+        const data: { [key: number]: Order[] } = this.groupByYear();
+        const validYears: string[] = Object.keys(data).filter((year) => {
+            return (
+                startDate.getFullYear() <= Number(year) &&
+                endDate.getFullYear() >= Number(year)
+            );
         });
         const numberOfYears: number = validYears.reduce((acc, curr) => {
             if (curr === startDate.getFullYear().toString()) {
-
                 /**
                  * Subtract the percentage of the year that was skipped since the start date
-                 * from 1 to get the percentage remaining in the year (i.e. 
+                 * from 1 to get the percentage remaining in the year (i.e.
                  * the amount of the year actually featuring the order data this function is concerned with).
                  */
-                return acc + (1 - getPercentageOfYearPassedOnDate(startDate) / 100);
+                return (
+                    acc + (1 - getPercentageOfYearPassedOnDate(startDate) / 100)
+                );
             } else if (curr === endDate.getFullYear().toString()) {
-                    
-                    /**
-                    * Add the percentage of the year that has passed given the end date
-                    * instead of adding 1 because 1 whole year may not have passed by the end date.
-                    */
-                    return acc + getPercentageOfYearPassedOnDate(endDate) / 100;
-                } else {
-                    return acc + 1;
-                }
+                /**
+                 * Add the percentage of the year that has passed given the end date
+                 * instead of adding 1 because 1 whole year may not have passed by the end date.
+                 */
+                return acc + getPercentageOfYearPassedOnDate(endDate) / 100;
+            } else {
+                return acc + 1;
+            }
         }, 0);
         let totalNumberOfPurchases: number = 0;
 
@@ -472,15 +540,36 @@ export default class Analytics {
         return +(totalNumberOfPurchases / numberOfYears).toFixed(2);
     }
 
-    public getDataMappedToCalendar(startDate: Date, endDate: Date): { date: string, totalSpend: number, totalOrders: number, totalItems: number }[] {
+    public getDataMappedToCalendar(
+        startDate: Date,
+        endDate: Date
+    ): {
+        date: string;
+        totalSpend: number;
+        totalOrders: number;
+        totalItems: number;
+    }[] {
         const objectCalendar = generateObjectCalendar(startDate, endDate);
-        const ordersByDate: {[key: string]: Order[]} = this.groupByDate(startDate, endDate);
-        const data: {date: string, totalSpend: number, totalOrders: number, totalItems: number }[] = [];
-        
+        const ordersByDate: { [key: string]: Order[] } = this.groupByDate(
+            startDate,
+            endDate
+        );
+        const data: {
+            date: string;
+            totalSpend: number;
+            totalOrders: number;
+            totalItems: number;
+        }[] = [];
+
         for (const filler of objectCalendar) {
             const date: string = filler.date;
-            const _data = { date, totalSpend: 0, totalOrders: 0, totalItems: 0 };
-            
+            const _data = {
+                date,
+                totalSpend: 0,
+                totalOrders: 0,
+                totalItems: 0,
+            };
+
             if (!ordersByDate[date]) {
                 data.push(_data);
 
@@ -501,23 +590,41 @@ export default class Analytics {
 
     // ---------- !!!! Streaks !!!! ----------
 
-    public getTopDroughtsBetweenPurchases(startDate: Date, endDate: Date, limit: number = 5): { startDate: string, endDate: string, days: number }[] {
+    public getTopDroughtsBetweenPurchases(
+        startDate: Date,
+        endDate: Date,
+        limit: number = 5
+    ): { startDate: string; endDate: string; days: number }[] {
         const times: number[] = this.getTimeOfOrdersSorted(startDate, endDate);
-        const result: { startDate: string, endDate: string, days: number }[] = [];
+        const result: { startDate: string; endDate: string; days: number }[] =
+            [];
 
         for (let i = 0; i < times.length - 1; i++) {
             const startDate: Date = new Date(times[i]);
             const endDate: Date = new Date(times[i + 1]);
-            const days: number = Math.floor((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
+            const days: number = Math.floor(
+                (endDate.getTime() - startDate.getTime()) /
+                    (1000 * 60 * 60 * 24)
+            );
 
-            result.push({ startDate: startDate.toDateString(), endDate: endDate.toDateString(), days });
+            result.push({
+                startDate: startDate.toDateString(),
+                endDate: endDate.toDateString(),
+                days,
+            });
         }
 
         return result.sort((a, b) => b.days - a.days).slice(0, limit);
     }
 
-    public getTopPurchaseStreaks(startDate: Date, endDate: Date, limit: number = 5): { startDate: string, endDate: string, days: number }[] {
-        const times: number[] = [...new Set(this.getTimeOfOrdersSorted(startDate, endDate))]; // Remove duplicates given some days have multiple orders.
+    public getTopPurchaseStreaks(
+        startDate: Date,
+        endDate: Date,
+        limit: number = 5
+    ): { startDate: string; endDate: string; days: number }[] {
+        const times: number[] = [
+            ...new Set(this.getTimeOfOrdersSorted(startDate, endDate)),
+        ]; // Remove duplicates given some days have multiple orders.
         const consecutiveOrderDates: string[][] = [];
 
         for (let i = 0; i < times.length; i++) {
@@ -528,20 +635,29 @@ export default class Analytics {
 
             const previousOrderDate: Date = new Date(times[i - 1]);
             const currentOrderDate: Date = new Date(times[i]);
-            const dayDifference: number = Math.floor((currentOrderDate.getTime() - previousOrderDate.getTime()) / (1000 * 60 * 60 * 24));
-            
+            const dayDifference: number = Math.floor(
+                (currentOrderDate.getTime() - previousOrderDate.getTime()) /
+                    (1000 * 60 * 60 * 24)
+            );
+
             if (dayDifference >= 2) {
                 consecutiveOrderDates.push([currentOrderDate.toDateString()]);
             } else {
-                consecutiveOrderDates[consecutiveOrderDates.length - 1].push(currentOrderDate.toDateString());
+                consecutiveOrderDates[consecutiveOrderDates.length - 1].push(
+                    currentOrderDate.toDateString()
+                );
             }
         }
 
         return consecutiveOrderDates
             .sort((a, b) => b.length - a.length)
             .slice(0, limit)
-            .map(dates => {
-                return { startDate: dates[0], endDate: dates[dates.length - 1], days: dates.length };
-        });
+            .map((dates) => {
+                return {
+                    startDate: dates[0],
+                    endDate: dates[dates.length - 1],
+                    days: dates.length,
+                };
+            });
     }
 }
