@@ -58,7 +58,7 @@ html {
     width: 100%;
     height: auto;
     color: var(--primary-font-color);
-    font-family: custom-regular;
+    font-family: custom-regular, sans-serif;
     background: linear-gradient(
         180deg,
         var(--primary-color) 0%,
@@ -78,7 +78,7 @@ body {
 }
 
 h2 {
-    font-family: custom-bold;
+    font-family: custom-bold, sans-serif;
     font-size: 1.25rem;
     text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.6);
     padding: 0;

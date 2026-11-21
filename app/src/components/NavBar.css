@@ -21,7 +21,7 @@
     .app-title {
         z-index: 2;
         position: relative;
-        font-family: custom-bold;
+        font-family: custom-bold, sans-serif;
         font-size: 1.55rem;
         text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.6);
         padding: 0;

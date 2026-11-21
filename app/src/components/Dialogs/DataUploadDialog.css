@@ -1,65 +1,66 @@
 .DataUploadDialog {
-  p {
-    color: var(--primary-font-color) !important;
-  }
-
-  pre {
-    font-family: custom-regular;
-    font-size: 0.8rem;
-    letter-spacing: 0;
-    color: var(--primary-font-color);
-    background-color: #0f346180;
-    padding: 0 16px;
-    margin: 6px 0;
-  }
-
-  a {
-    color: var(--primary-highlight-color) !important;
-  }
-
-  .MuiDialog-paper {
-    font-family: custom-regular !important;
-    color: var(--primary-font-color);
-    background-color: #070c10f4;
-    border: var(--border);
-    border-radius: var(--border-radius);
-    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px,
-      rgba(0, 0, 0, 0.22) 0px 15px 12px;
-  }
-
-  #attach-file-button {
-    .icon {
-      color: var(--primary-font-color) !important;
+    p {
+        color: var(--primary-font-color) !important;
     }
 
-    color: var(--primary-font-color) !important;
-    background-color: #2265c1 !important;
-
-    &:hover {
-      background-color: var(--tertiary-highlight-color) !important;
+    pre {
+        font-family: custom-regular;
+        font-size: 0.8rem;
+        letter-spacing: 0;
+        color: var(--primary-font-color);
+        background-color: #0f346180;
+        padding: 0 16px;
+        margin: 6px 0;
     }
-  }
 
-  .form-title {
-    font-family: custom-bold !important;
-    font-size: 1.3rem !important;
-  }
+    a {
+        color: var(--primary-highlight-color) !important;
+    }
 
-  .content {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    gap: 8px;
-    padding-top: 16px;
-  }
+    .MuiDialog-paper {
+        font-family: custom-regular, sans-serif !important;
+        color: var(--primary-font-color);
+        background-color: #070c10f4;
+        border: var(--border);
+        border-radius: var(--border-radius);
+        box-shadow:
+            rgba(0, 0, 0, 0.3) 0px 19px 38px,
+            rgba(0, 0, 0, 0.22) 0px 15px 12px;
+    }
+
+    #attach-file-button {
+        .icon {
+            color: var(--primary-font-color) !important;
+        }
+
+        color: var(--primary-font-color) !important;
+        background-color: #2265c1 !important;
+
+        &:hover {
+            background-color: var(--tertiary-highlight-color) !important;
+        }
+    }
+
+    .form-title {
+        font-family: custom-bold, sans-serif !important;
+        font-size: 1.3rem !important;
+    }
+
+    .content {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        gap: 8px;
+        padding-top: 16px;
+    }
 }
 
 @media screen and (min-width: 1080px) {
-  .DataUploadDialog {
-    pre {
-      font-size: 1rem;
-      letter-spacing: 1px;
+    .DataUploadDialog {
+        pre {
+            font-size: 1rem;
+            letter-spacing: 1px;
+        }
     }
-  }
 }
