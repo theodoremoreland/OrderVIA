@@ -168,7 +168,7 @@ const NavBar = ({ analytics }: Props): ReactElement => {
                             target="_blank"
                             rel="noopener noreferrer"
                             title="Open GitHub repository"
-                            href="https://github.com/theodoremoreland/OrderDashboard"
+                            href="https://github.com/theodoremoreland/OrderVIA"
                             className="menu-link"
                         >
                             <GitHubIcon className="icon" />

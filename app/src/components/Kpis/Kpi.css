@@ -32,12 +32,12 @@
     }
 
     .label {
-        font-family: custom-regular;
+        font-family: custom-regular, sans-serif;
         font-size: 1rem;
     }
 
     .value {
-        font-family: custom-bold;
+        font-family: custom-bold, sans-serif;
         font-size: 1.3rem;
     }
 

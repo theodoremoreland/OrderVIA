@@ -63,7 +63,10 @@ const DisplaySettingsModal = ({ open, handleClose }: Props): ReactElement => {
                             value={listsCount}
                             onChange={(e) =>
                                 setListsCount(
-                                    parseInt(e.target.value) as 5 | 7 | 10
+                                    Number.parseInt(e.target.value) as
+                                        | 5
+                                        | 7
+                                        | 10
                                 )
                             }
                         >
@@ -98,7 +101,10 @@ const DisplaySettingsModal = ({ open, handleClose }: Props): ReactElement => {
                             value={barChartsCount}
                             onChange={(e) =>
                                 setBarChartsCount(
-                                    parseInt(e.target.value) as 5 | 7 | 10
+                                    Number.parseInt(e.target.value) as
+                                        | 5
+                                        | 7
+                                        | 10
                                 )
                             }
                         >
